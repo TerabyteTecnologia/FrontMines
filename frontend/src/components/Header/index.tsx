@@ -1,19 +1,19 @@
-import logout from '../../assets/icons/logout.svg';
+import logoutImg from '../../assets/icons/logout.svg';
 import { useAuth } from '../../contexts/Auth';
 
-import { HeaderContainer, HeaderContent } from './styles';
+import { ButtonLink, HeaderContainer, HeaderContent } from './styles';
 
 export function Header() {
 
-  // const { user } = useAuth(); // RECUPERAR USER PARA MOSTRAR SEU NOME
+  const { user,logout } = useAuth(); // RECUPERAR USER PARA MOSTRAR SEU NOME
 
   return (
     <HeaderContainer>
       <HeaderContent>
-        <span>Alisson</span>
-        <a>Sair {`\n`}
-          <img src={logout} />
-        </a>
+        <span>{user}</span>
+        <ButtonLink onClick={logout}>Sair {`\n`}
+          <img src={logoutImg} />
+        </ButtonLink>
       </HeaderContent>
     </HeaderContainer>
   );

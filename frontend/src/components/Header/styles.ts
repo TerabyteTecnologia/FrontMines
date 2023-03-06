@@ -19,3 +19,7 @@ export const HeaderContent = styled.div`
   font-size: 1.5rem;
   font-weight: 700;
 `;
+
+export const ButtonLink = styled.a`
+  cursor: pointer;
+`

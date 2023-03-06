@@ -1,7 +1,8 @@
 export interface AuthContextProps {
   login: (data: LoginProps) => void;
-
+  logout:() =>void;
   isAuthentication: boolean;
+  user:string | null; 
 }
 
 export interface AuthContextProviderType {
@@ -10,5 +11,5 @@ export interface AuthContextProviderType {
 
 export interface LoginProps {
   email: string;
-  password: string;
+  senha: string;
 }

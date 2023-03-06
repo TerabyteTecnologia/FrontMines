@@ -10,6 +10,7 @@ import { ButtonDefault } from "../../components/Button";
 import { useAuth } from "../../contexts/Auth";
 
 import { LoginContainer, LoginContent, LoginForm, LoginFormGroup } from "./styles";
+import { useEffect, useState } from "react";
 
 export function Login() {
 
@@ -17,25 +18,31 @@ export function Login() {
 
   const navigate = useNavigate();
 
-  function handleSubmit() {
+ 
+  useEffect(()=>{
+    isAuthentication == true && navigate('/')
+  },[])
+  function handleSubmit(e:any) {
+    e.preventDefault();
 
     const dataLogin = {
-      "email": "alisson",
-      "password": "123",
+      "email": email,
+      "senha": senha,
+      //Rodrigo@2022
     };
 
-    // login(dataLogin); //HABILITAR ESSE MÉTODO QUANDO INTEGRAR COM API
+     login(dataLogin); //HABILITAR ESSE MÉTODO QUANDO INTEGRAR COM API
 
-    navigate("/");  //REMOVER ESTE NAVIGATE APÓS INTEGRAR COM API
+    
   }
-
+ const [email,setEmail] = useState('');
+ const [senha,setSenha] = useState('');
   return (
     <LoginContainer>
       <LoginContent>
         <header>
           <img src={logoLogin} />
         </header>
-
         <LoginForm onSubmit={handleSubmit}>
           <LoginFormGroup>
             <img src={userIcon} />
@@ -43,7 +50,9 @@ export function Login() {
               id="email"
               type="email"
               placeholder="E-mail"
-            />
+              onChange={(e)=>{setEmail(e.target.value)}}
+              value={email}
+              />
           </LoginFormGroup>
 
           <LoginFormGroup>
@@ -57,6 +66,8 @@ export function Login() {
               id="password"
               type="password"
               placeholder="Senha"
+              value={senha}
+              onChange={(e)=>{setSenha(e.target.value)}}
             />
           </LoginFormGroup>
 
