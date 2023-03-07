@@ -22,6 +22,15 @@ export const HomeContainer = styled.div`
       height: 140px;
     }
   }
+
+  @media only screen and (max-width: 400px) {
+    header {
+    img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+  }
 `;
 
 export const SpinnerContent = styled.div`
@@ -43,6 +52,7 @@ export const MinesContent = styled.div`
   @media only screen and (max-width: 400px) {
     grid-template-columns: repeat(5, 55px);
     gap: 0.625rem;
+    margin: 0.75rem 0 0 0;
   }
 
   @media only screen and (max-width: 335px) {
@@ -97,7 +107,8 @@ export const Mines = styled.button<MinesProps>`
   }
 
   ${props => props.variant === 0 && css`
-    background: linear-gradient(180deg, ${props => props.theme["blue-400"]} 0%, #003499 100%);
+    background: linear-gradient(180deg, #F9B519 0%, #EF9201 100%);
+    
   `}
 
     @media only screen and (max-width: 400px) {
@@ -130,10 +141,14 @@ export const ButtonGeneratedHack = styled.div`
   button {
     width: 382px;
   }
-
+  @media only screen and (max-width: 400px) {
+    margin-top: 40px;
+    }
   @media only screen and (max-width: 720px) {
     button {
       width: 100%;
     } 
   }
 `;
+
+
