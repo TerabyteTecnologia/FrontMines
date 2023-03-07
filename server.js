@@ -1,5 +1,5 @@
-//const express = require('express');
-import express from "express";
+const express = require('express');
+//import express from "express";
 const {resolve} =require('path');
 
 const app =express();

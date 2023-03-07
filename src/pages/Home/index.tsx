@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ButtonDefault } from "../../components/Button";
 import { Visibility } from "../../components/Visibility";
@@ -75,19 +75,39 @@ export function Home() {
   const [dataGeneratedMines, setDataGeneratedMines] = useState<generatedMines | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [totalTimeSecond,setTotalTimeSecond] = useState((0));
+  const minutes = Math.floor(totalTimeSecond / 60);
+  const seconds =totalTimeSecond % 60;
+
   function generateRange(number: number) {
     return Array.from({ length: number }, (_, i) => i + 1);
   }
-
+  
   async function postGeneratedMine() {
     setLoading(true);
     const jogos = await gerarJogo();
-    setTimeout(() => {
+ 
       setDataGeneratedMines(jogos);
       setLoading(false);
+      setTotalTimeSecond((1*60))
 
-    }, 3000);
+
   }
+  
+
+  useEffect(()=>{
+   const intervar = setInterval(() =>{
+      if(totalTimeSecond == 0){
+
+        return
+      }else{
+        setTotalTimeSecond(totalTimeSecond -1);
+       }
+    },1000)
+    return()=>{
+      clearInterval(intervar);
+    }
+  },[totalTimeSecond])
 
   const showFirstStep = !(dataGeneratedMines?.entradas && dataGeneratedMines?.entradas.length > 0);
   const showSecondStep = !!(dataGeneratedMines?.entradas && dataGeneratedMines?.entradas.length > 0);
@@ -97,14 +117,13 @@ export function Home() {
       <header>
         <img src={logoMines} />
       </header>
-
       <Visibility visible={loading}>
         <SpinnerContent>
           <Spinner width={60} height={60} />
           <span>Gerando Hack ...</span>
         </SpinnerContent>
       </Visibility>
-
+  
       <Visibility visible={!loading && showFirstStep}>
         <MinesContent>
           {generateRange(25).map(() => (
@@ -135,7 +154,7 @@ export function Home() {
           })}
         </MinesContent>
 
-        <AccessGame href=" https://go.aff.vaidebet.com/ckueom55">
+        <AccessGame href=" https://go.aff.vaidebet.com/ckueom55" target="_blank">
           <img src={link} /> Acessar Game
         </AccessGame>
 
@@ -143,8 +162,8 @@ export function Home() {
 
 
       <ButtonGeneratedHack>
-        <ButtonDefault onClick={postGeneratedMine}>
-          Gerar Hack
+        <ButtonDefault onClick={postGeneratedMine} disabled={!!totalTimeSecond}>
+          {totalTimeSecond == 0 ? 'Gerar Hack' : `${minutes.toString().padStart(2,"0")}:${seconds.toString().padStart(2,"0")}`}
         </ButtonDefault>
       </ButtonGeneratedHack>
     </HomeContainer>
