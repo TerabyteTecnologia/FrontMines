@@ -23,7 +23,7 @@ export const HomeContainer = styled.div`
     }
   }
 
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 480px) {
     header {
     img {
       width: 100px;
@@ -49,7 +49,7 @@ export const MinesContent = styled.div`
   gap: 0.938rem;
   margin: 3.75rem 0 0 0;
 
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 480px) {
     grid-template-columns: repeat(5, 55px);
     gap: 0.625rem;
     margin: 0.75rem 0 0 0;
@@ -74,6 +74,11 @@ export const Information = styled.p`
 
   span {
     font-weight: 700;
+  }
+
+  @media only screen and (max-width: 480px) {
+    top: 0.188rem;
+
   }
 `;
 
@@ -100,7 +105,7 @@ export const Mines = styled.button<MinesProps>`
     box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25); 
     border-radius: 50%;
 
-    @media only screen and (max-width: 400px) {
+    @media only screen and (max-width: 480px) {
       width: 1rem;
       height: 1rem;
     }
@@ -111,7 +116,7 @@ export const Mines = styled.button<MinesProps>`
     
   `}
 
-    @media only screen and (max-width: 400px) {
+    @media only screen and (max-width: 480px) {
       width: 50px;
       height: 50px;
     }
@@ -128,7 +133,10 @@ export const AccessGame = styled.a`
   font-weight: 700;
   color: ${props => props.theme["white"]};
 
-  top: 3.125rem;
+  
+  @media only screen and (max-width: 480px) {
+    top: 1.125rem;
+    }
 `;
 
 export const ButtonGeneratedHack = styled.div`
@@ -141,7 +149,7 @@ export const ButtonGeneratedHack = styled.div`
   button {
     width: 382px;
   }
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 480px) {
     margin-top: 40px;
     }
   @media only screen and (max-width: 720px) {

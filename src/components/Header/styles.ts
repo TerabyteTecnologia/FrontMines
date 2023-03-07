@@ -6,7 +6,7 @@ export const HeaderContainer = styled.header`
   color: ${props => props.theme["white"]};
 
   padding: 1.5rem;
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 480px) {
     padding: 1.3rem 2rem 1.3rem 2rem;
   }
 `;
@@ -22,7 +22,7 @@ export const HeaderContent = styled.div`
   
   font-size: 1.5rem;
   font-weight: 700;
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 480px) {
     font-size: 1.2rem;
   }
 `;
