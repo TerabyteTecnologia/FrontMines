@@ -40,7 +40,8 @@ import { HttpAuth } from "../../config/http";
   async function  gerarJogo() {
 
    const resultBank = await ReturnResultMiner();
-
+   
+   var espera = resultBank.data.miner.espera;
     var minas_a = resultBank.data.miner.minas_a;
     var minas_b = resultBank.data.miner.minas_b;
     var entrada_min = resultBank.data.miner.entrada_a;
@@ -61,6 +62,7 @@ import { HttpAuth } from "../../config/http";
   }
 
   let retorno = {
+    espera:espera,
     qtd_minas: numero_minas,
     entradas: minas,
   };
@@ -74,8 +76,8 @@ export function Home() {
 
   const [dataGeneratedMines, setDataGeneratedMines] = useState<generatedMines | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-
-  const [totalTimeSecond,setTotalTimeSecond] = useState((0));
+  let timeInicial = localStorage.getItem('totalTimeSecond')
+  const [totalTimeSecond,setTotalTimeSecond] = useState((timeInicial ? parseInt(timeInicial):0));
   const minutes = Math.floor(totalTimeSecond / 60);
   const seconds =totalTimeSecond % 60;
 
@@ -86,11 +88,11 @@ export function Home() {
   async function postGeneratedMine() {
     setLoading(true);
     const jogos = await gerarJogo();
- 
       setDataGeneratedMines(jogos);
-      setLoading(false);
-      setTotalTimeSecond((1*60))
+      localStorage.setItem('@Terabyte:jogos', JSON.stringify(jogos));
 
+      setLoading(false);
+      setTotalTimeSecond((jogos.espera*60))
 
   }
   
@@ -98,10 +100,19 @@ export function Home() {
   useEffect(()=>{
    const intervar = setInterval(() =>{
       if(totalTimeSecond == 0){
-
+        setDataGeneratedMines(null);
         return
       }else{
         setTotalTimeSecond(totalTimeSecond -1);
+        localStorage.setItem('totalTimeSecond',(totalTimeSecond -1).toString())
+         const teste = localStorage.getItem('@Terabyte:jogos')
+         if(teste){
+          const favor = teste && JSON.parse(teste)
+          setDataGeneratedMines(favor);
+         }
+         
+         
+
        }
     },1000)
     return()=>{
