@@ -36,6 +36,7 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
      localStorage.clear();
      navigate("/login");
   }
+  
   return (
     <AuthContext.Provider
       value={{

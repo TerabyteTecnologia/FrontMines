@@ -20,38 +20,55 @@ import {
   MinesContent,
   SpinnerContent
 } from "./styles";
+import { HttpAuth } from "../../config/http";
 
-const exampleReturnGeneratedMines: generatedMines =
-{
-  "qtd_minas": 3,
-  "entradas": [
-    0,
-    0,
-    1,
-    1,
-    0,
-    0,
-    0,
-    1,
-    1,
-    0,
-    0,
-    0,
-    1,
-    1,
-    0,
-    0,
-    0,
-    1,
-    1,
-    0,
-    0,
-    0,
-    1,
-    1,
-    0
-  ]
-};
+
+
+ async function ReturnResultMiner(){
+   const finelResult = HttpAuth.get('/estrategia/showminer',{
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('@TerabyteTecnologia-:token-1.0.0'),
+      }
+  
+    })
+    
+    return finelResult;
+   
+  }
+
+  async function  gerarJogo() {
+
+   const resultBank = await ReturnResultMiner();
+
+    var minas_a = resultBank.data.miner.minas_a;
+    var minas_b = resultBank.data.miner.minas_b;
+    var entrada_min = resultBank.data.miner.entrada_a;
+    var entrada_max = resultBank.data.miner.entrada_b;
+
+  let minas = Array(25).fill(1);
+
+  let numero_minas = Math.floor(Math.random() * (minas_b - minas_a + 1)) + minas_a;
+
+  let palpites_entrada:any = [];
+  let tamanho_entrada = Math.floor(Math.random() * (entrada_max - entrada_min + 1)) + entrada_min;
+  for (let i = 0; i < tamanho_entrada; i++) {
+    let palpite = Math.floor(Math.random() * 24) + 1;
+    if (!palpites_entrada.includes(palpite)) {
+      palpites_entrada.push(palpite);
+      minas[palpite] = 0;
+    }
+  }
+
+  let retorno = {
+    qtd_minas: numero_minas,
+    entradas: minas,
+  };
+  return retorno;
+
+ }
+
+
 
 export function Home() {
 
@@ -62,11 +79,11 @@ export function Home() {
     return Array.from({ length: number }, (_, i) => i + 1);
   }
 
-  function postGeneratedMine() {
+  async function postGeneratedMine() {
     setLoading(true);
-
+    const jogos = await gerarJogo();
     setTimeout(() => {
-      setDataGeneratedMines(exampleReturnGeneratedMines);
+      setDataGeneratedMines(jogos);
       setLoading(false);
 
     }, 3000);
