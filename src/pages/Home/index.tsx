@@ -135,7 +135,7 @@ export function Home() {
           })}
         </MinesContent>
 
-        <AccessGame>
+        <AccessGame href=" https://go.aff.vaidebet.com/ckueom55">
           <img src={link} /> Acessar Game
         </AccessGame>
 

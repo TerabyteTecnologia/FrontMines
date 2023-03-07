@@ -1,4 +1,5 @@
-const express = require('express');
+//const express = require('express');
+import express from "express";
 const {resolve} =require('path');
 
 const app =express();
@@ -9,7 +10,8 @@ express.static(
 )
 )
 app.use('*', express.static( resolve( __dirname, './dist' ) ) )
-app.listen(process.env.PORT || 3003,(err)=>{
+//tirar o port.env e colocar no package.json trocar type="module" para type="commonjs" depoois de buildado
+app.listen(3003,(err)=>{
     if(err){return  console.log(err)}
 
     console.log('Tudo funcionando')
