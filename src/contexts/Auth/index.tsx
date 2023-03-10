@@ -1,14 +1,15 @@
 
 import {
   createContext,
-  useContext
+  useContext,
+  useState
 } from 'react';
 import { HttpAuth } from '../../config/http';
 import { useNavigate } from "react-router-dom";
 
 import { getTokenLocalStorage, getUserLocalStorage } from '../../services/global/endPoints';
 
-import { AuthContextProps, AuthContextProviderType, LoginProps } from './interface';
+import { AuthContextProps, AuthContextProviderType, LoginProps,RecoveryProps } from './interface';
 
 const AuthContext = createContext({} as AuthContextProps);
 
@@ -17,10 +18,13 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
    const isAuthentication = !!getTokenLocalStorage();// HABILITAR QUANDO FOR INTEGRAR API
    const user = getUserLocalStorage();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const login = (credentials: LoginProps) => {
+    setLoading(true);
     // CHAMADA DE API DE LOGIN AQUI
     HttpAuth.post('/usuario/authenticate',credentials).then(res =>{
+  
       if(res.data.situacao == true){
         localStorage.setItem('@TerabyteTecnologia-:token-1.0.0',res.data.access_token);
         localStorage.setItem('@TerabyteTecnologia-:user',res.data.data.nome)
@@ -28,9 +32,26 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
       }else{
         alert(res.data.error)
       }
+      setLoading(false);
     })
     
   };
+
+  const recovery = (credentials: RecoveryProps) => {
+    setLoading(true);
+    // CHAMADA DE API DE LOGIN AQUI
+    HttpAuth.post('/usuario/recovery',credentials).then(res =>{
+    
+      if(res.data.situacao == true){
+        navigate("/login");  
+      }else{
+        alert(res.data.msg)
+      }
+      setLoading(false)
+    })
+    
+  };
+ 
  
   const logout =()=>{
      localStorage.clear();
@@ -41,8 +62,11 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
     <AuthContext.Provider
       value={{
         login: (credentials: LoginProps) => login(credentials),
+        recovery: (credentials: RecoveryProps) => recovery(credentials),
         logout,
+
         isAuthentication,
+        loading,
         user
       }}
     >

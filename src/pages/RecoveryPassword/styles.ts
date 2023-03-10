@@ -52,11 +52,7 @@ export const LoginFormGroup = styled.div`
   }
 `;
 
-export const LinkSenha = styled.a`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    color:${(props) =>props.theme['white-100']};
-    font-size:0.9rem;
+export const LabelForm = styled.label`
+  display: flex;
+  justify-content: center;
 `

@@ -9,14 +9,17 @@ import { ButtonDefault } from "../../components/Button";
 
 import { useAuth } from "../../contexts/Auth";
 
-import { LinkSenha, LoginContainer, LoginContent, LoginForm, LoginFormGroup } from "./styles";
+import { LabelForm, LoginContainer, LoginContent, LoginForm, LoginFormGroup } from "./styles";
 import { useEffect, useState } from "react";
 
-export function Login() {
+export function Recovery() {
 
-  const { isAuthentication, login,loading } = useAuth();
+  const { isAuthentication, recovery,loading } = useAuth();
 
   const navigate = useNavigate();
+  const [email,setEmail] = useState('');
+  const [senha,setSenha] = useState('');
+  const [senhaNew,setSenhaNew] = useState('');
 
  
   useEffect(()=>{
@@ -24,26 +27,30 @@ export function Login() {
   },[])
   function handleSubmit(e:any) {
     e.preventDefault();
-
+   
     const dataLogin = {
       "email": email,
       "senha": senha,
+      "senhaNova":senhaNew,
       //Rodrigo@2022
-    };
 
-     login(dataLogin); //HABILITAR ESSE MÉTODO QUANDO INTEGRAR COM API
+    };
+    
+
+    recovery(dataLogin); //HABILITAR ESSE MÉTODO QUANDO INTEGRAR COM API
 
     
   }
- const [email,setEmail] = useState('');
- const [senha,setSenha] = useState('');
+
   return (
     <LoginContainer>
       <LoginContent>
         <header>
           <img src={logoLogin} />
         </header>
+    
         <LoginForm onSubmit={handleSubmit}>
+        <LabelForm>Trocar Senha</LabelForm>
           <LoginFormGroup>
             <img src={userIcon} />
             <Input
@@ -53,6 +60,7 @@ export function Login() {
               onChange={(e)=>{setEmail(e.target.value)}}
               value={email}
               />
+              <label>{}</label>
           </LoginFormGroup>
 
           <LoginFormGroup>
@@ -65,9 +73,26 @@ export function Login() {
             <Input
               id="password"
               type="password"
-              placeholder="Senha"
+              placeholder="Senha Antiga"
               value={senha}
               onChange={(e)=>{setSenha(e.target.value)}}
+            />
+          </LoginFormGroup>
+
+
+          <LoginFormGroup>
+            <img
+              src={passwordIcon}
+              style={{
+                padding: "19px 0px 0px 12px"
+              }}
+            />
+            <Input
+              id="passwordNew"
+              type="passwordNew"
+              placeholder="Senha Nova"
+              value={senhaNew}
+              onChange={(e)=>{setSenhaNew(e.target.value)}}
             />
           </LoginFormGroup>
 
@@ -75,10 +100,9 @@ export function Login() {
             type="submit"
             disabled={loading}
           >
-            Entrar
+            Recuperar
           </ButtonDefault>
         </LoginForm>
-        <LinkSenha href="/recovery">Esqueçeu Senha Clique Aqui</LinkSenha>
       </LoginContent>
     </LoginContainer >
   );
