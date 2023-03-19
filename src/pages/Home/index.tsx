@@ -165,7 +165,7 @@ export function Home() {
           })}
         </MinesContent>
 
-        <AccessGame href=" https://go.aff.vaidebet.com/ckueom55" target="_blank">
+        <AccessGame href="https://realsbet.com/signup?btag=CX-41747_383539" target="_blank">
           <img src={link} /> Acessar Game
         </AccessGame>
 
