@@ -11,7 +11,6 @@ express.static(
 )
 app.use('*', express.static( resolve( __dirname, './dist' ) ) )
 //tirar o port.env e colocar no package.json trocar type="module" para type="commonjs" depoois de buildado
-//3003 = mineshack === 3017 mymineshack
 app.listen(3017,(err)=>{
     if(err){return  console.log(err)}
 
