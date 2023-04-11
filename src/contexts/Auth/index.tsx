@@ -58,12 +58,43 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
      navigate("/login");
   }
   
+
+   function verificaUsoUnico(){
+    try{
+          let token = localStorage.getItem('@TerabyteTecnologia-:token-1.0.0');
+          HttpAuth.post('cliente/usounico',{
+                token: token
+              }).then(resaxios =>{
+                if(resaxios){
+                  if(resaxios.data.codigo == 1){
+                    console.log('logout')
+                 
+                    logout();
+                  
+                  }
+                }
+              }).catch(error=>{            
+                console.log('logout')
+                logout();
+              
+              })
+      
+        
+    }catch{
+      
+      console.log('logout')
+      
+      logout();
+      
+    }
+  }
   return (
     <AuthContext.Provider
       value={{
         login: (credentials: LoginProps) => login(credentials),
         recovery: (credentials: RecoveryProps) => recovery(credentials),
         logout,
+        verificaUsoUnico,
 
         isAuthentication,
         loading,

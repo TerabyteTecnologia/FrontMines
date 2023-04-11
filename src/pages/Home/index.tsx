@@ -21,6 +21,7 @@ import {
   SpinnerContent
 } from "./styles";
 import { HttpAuth } from "../../config/http";
+import { useAuth } from "../../contexts/Auth";
 
 
 
@@ -73,7 +74,7 @@ import { HttpAuth } from "../../config/http";
 
 
 export function Home() {
-
+  const { verificaUsoUnico } = useAuth();
   const [dataGeneratedMines, setDataGeneratedMines] = useState<generatedMines | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   let timeInicial = localStorage.getItem('totalTimeSecond')
@@ -86,6 +87,7 @@ export function Home() {
   }
   
   async function postGeneratedMine() {
+    verificaUsoUnico();
     setLoading(true);
     const jogos = await gerarJogo();
       setDataGeneratedMines(jogos);

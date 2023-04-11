@@ -2,6 +2,7 @@ export interface AuthContextProps {
   login: (data: LoginProps) => void;
   recovery: (data: RecoveryProps) => void;
   logout:() =>void;
+  verificaUsoUnico:()=>void;
   isAuthentication: boolean;
   user:string | null; 
   loading:boolean;
