@@ -62,7 +62,7 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
    function verificaUsoUnico(){
     try{
           let token = localStorage.getItem('@TerabyteTecnologia-:token-1.0.0');
-          HttpAuth.post('cliente/usounico',{
+          HttpAuth.put('/usuario/usounico',{
                 token: token
               }).then(resaxios =>{
                 if(resaxios){
