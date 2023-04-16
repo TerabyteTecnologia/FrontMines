@@ -3,6 +3,8 @@ export interface AuthContextProps {
   recovery: (data: RecoveryProps) => void;
   logout:() =>void;
   verificaUsoUnico:()=>void;
+  tentativas:number;
+  setTentativas:(numero:number) => void;
   isAuthentication: boolean;
   user:string | null; 
   loading:boolean;

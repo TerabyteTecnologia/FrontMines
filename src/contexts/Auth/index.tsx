@@ -19,6 +19,7 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
    const user = getUserLocalStorage();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
+  const [tentativas,setTentativas] =useState<number>(0);
 
   const login = (credentials: LoginProps) => {
     setLoading(true);
@@ -28,8 +29,10 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
       if(res.data.situacao == true){
         localStorage.setItem('@TerabyteTecnologia-:token-1.0.0',res.data.access_token);
         localStorage.setItem('@TerabyteTecnologia-:user',res.data.data.nome)
+        setTentativas(0);
         navigate("/");  //REMOVER ESTE NAVIGATE APÓS INTEGRAR COM API
       }else{
+        setTentativas(tentativas+1);
         alert(res.data.error)
       }
       setLoading(false);
@@ -43,8 +46,11 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
     HttpAuth.post('/usuario/recovery',credentials).then(res =>{
     
       if(res.data.situacao == true){
+        setTentativas(0);
         navigate("/login");  
       }else{
+      
+        setTentativas(tentativas+1);
         alert(res.data.msg)
       }
       setLoading(false)
@@ -95,7 +101,8 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
         recovery: (credentials: RecoveryProps) => recovery(credentials),
         logout,
         verificaUsoUnico,
-
+        setTentativas,
+        tentativas,
         isAuthentication,
         loading,
         user

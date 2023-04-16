@@ -37,7 +37,13 @@ export const LoginForm = styled.form`
 
   margin: 0.938rem 0;
 `;
-
+export const CaptchaContainer = styled.div`
+  display: flex;
+  flex-direction: column ;
+  align-items: center; 
+  justify-content: center; 
+  align-content: center; ;
+`;
 export const LoginFormGroup = styled.div`
   display: flex;
   flex-direction: column ;

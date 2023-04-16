@@ -8,26 +8,56 @@ import { Input } from "../../components/Input";
 import { ButtonDefault } from "../../components/Button";
 
 import { useAuth } from "../../contexts/Auth";
-
-import { LabelForm, LoginContainer, LoginContent, LoginForm, LoginFormGroup } from "./styles";
+import Recaptcha from '../../recaptcha';
+import { CaptchaContainer, LabelForm, LoginContainer, LoginContent, LoginForm, LoginFormGroup } from "./styles";
 import { useEffect, useState } from "react";
 
 export function Recovery() {
 
-  const { isAuthentication, recovery,loading } = useAuth();
-
+  const { isAuthentication, recovery,loading,tentativas,setTentativas } = useAuth();
+  const key = '6Lfmz5ElAAAAAPy39vbsi1LBIGdBzjGvunXXSZG1'
   const navigate = useNavigate();
   const [email,setEmail] = useState('');
   const [senha,setSenha] = useState('');
   const [senhaNew,setSenhaNew] = useState('');
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
- 
+
+
+  let timeInicial = localStorage.getItem('totalTimeSecondRecovery')
+  const [totalTimeSecondRecovery,settotalTimeSecondRecovery] = useState((timeInicial ? parseInt(timeInicial):0));
+  const minutes = Math.floor(totalTimeSecondRecovery / 60);
+  const seconds =totalTimeSecondRecovery % 60;
+
+  const handleRecaptchaChange = (token: string | null) => {
+    setRecaptchaToken(token);
+  };
   useEffect(()=>{
     isAuthentication == true && navigate('/')
   },[])
+
+
+  useEffect(()=>{
+    const intervar = setInterval(() =>{
+       if(totalTimeSecondRecovery == 0){
+         return
+       }else{
+         settotalTimeSecondRecovery(totalTimeSecondRecovery -1);
+         localStorage.setItem('totalTimeSecondRecovery',(totalTimeSecondRecovery -1).toString())
+ 
+        }
+     },1000)
+     return()=>{
+       setTentativas(0)
+       clearInterval(intervar);
+     }
+   },[totalTimeSecondRecovery])
+
+
   function handleSubmit(e:any) {
     e.preventDefault();
-   
+    console.log('tentativa',tentativas)
+    if(totalTimeSecondRecovery == 0){
     const dataLogin = {
       "email": email,
       "senha": senha,
@@ -35,9 +65,17 @@ export function Recovery() {
       //Rodrigo@2022
 
     };
+    if(tentativas >= 3){
+      settotalTimeSecondRecovery((0.2*60))
+     }
+    if(recaptchaToken){
+      // Verifica se o token do reCAPTCHA é válido
+      recovery(dataLogin); //HABILITAR ESSE MÉTODO QUANDO INTEGRAR COM API
+     }else{
+         alert('Captcha Invalido')
+     }
     
-
-    recovery(dataLogin); //HABILITAR ESSE MÉTODO QUANDO INTEGRAR COM API
+    }
 
     
   }
@@ -95,12 +133,14 @@ export function Recovery() {
               onChange={(e)=>{setSenhaNew(e.target.value)}}
             />
           </LoginFormGroup>
-
+          <CaptchaContainer>
+          <Recaptcha sitekey={key} onChange={handleRecaptchaChange} />
+          </CaptchaContainer>
           <ButtonDefault
             type="submit"
-            disabled={loading}
+            disabled={loading  || !recaptchaToken ||  totalTimeSecondRecovery != 0}
           >
-            Recuperar
+             {totalTimeSecondRecovery == 0 ? 'Recuperar' : `${minutes.toString().padStart(2,"0")}:${seconds.toString().padStart(2,"0")}`}
           </ButtonDefault>
         </LoginForm>
       </LoginContent>
