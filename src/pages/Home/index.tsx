@@ -26,15 +26,22 @@ import { useAuth } from "../../contexts/Auth";
 
 
  async function ReturnResultMiner(){
-   const finelResult = HttpAuth.get('/estrategia/showminer',{
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': localStorage.getItem('@TerabyteTecnologia-:token-1.0.0'),
-      }
-  
-    })
-    
-    return finelResult;
+     const result =localStorage.getItem('@TerabyteTecnologia-:estrategia');
+     const minerTemp =  JSON.stringify({miner:{
+      createdAt: "2023-03-06T23:24:02.000Z",
+      entrada_a: 4,
+      entrada_b: 6,
+      espera: 1,
+      id : 1,
+      minas_a: 2,
+      minas_b: 3,
+      tentativas: 3,
+      updatedAt: "2023-04-14T00:02:02.000Z",
+      usuario_id: 1
+    }})
+     const miner = JSON.parse(result ? result : minerTemp);
+
+     return miner.miner
    
   }
 
@@ -42,11 +49,11 @@ import { useAuth } from "../../contexts/Auth";
 
    const resultBank = await ReturnResultMiner();
    
-   var espera = resultBank.data.miner.espera;
-    var minas_a = resultBank.data.miner.minas_a;
-    var minas_b = resultBank.data.miner.minas_b;
-    var entrada_min = resultBank.data.miner.entrada_a;
-    var entrada_max = resultBank.data.miner.entrada_b;
+   var espera = resultBank.espera;
+    var minas_a = resultBank.minas_a;
+    var minas_b = resultBank.minas_b;
+    var entrada_min = resultBank.entrada_a;
+    var entrada_max = resultBank.entrada_b;
 
   let minas = Array(25).fill(1);
 
@@ -167,7 +174,7 @@ export function Home() {
           })}
         </MinesContent>
 
-        <AccessGame href="https://www.pixluck.bet/register?id=6426e13499afed0026b77eb8" target="_blank">
+        <AccessGame href="https://www.pixluck.bet/register?id=63e2c66a7886510026cf28eb"  target="_blank">
           <img src={link} /> Acessar Game
         </AccessGame>
 

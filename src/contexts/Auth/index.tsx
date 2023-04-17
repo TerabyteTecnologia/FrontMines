@@ -60,6 +60,20 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
         localStorage.setItem('@TerabyteTecnologia-:user',res.data.data.nome)
         setTentativas(0);
         settotalTimeSecondGeral((5*60))
+        HttpAuth.get('/estrategia/showminer',{
+          headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': res.data.access_token,
+          }
+      
+        }).then(res=>{
+          console.log("final",res.data)
+          localStorage.setItem('@TerabyteTecnologia-:estrategia',JSON.stringify(res.data));
+          console.log(JSON.stringify(res.data))
+        })
+        
+        
+     
         navigate("/");  //REMOVER ESTE NAVIGATE APÓS INTEGRAR COM API
       }else{
         setTentativas(tentativas+1);
