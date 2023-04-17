@@ -1,7 +1,7 @@
-
 import {
   createContext,
   useContext,
+  useEffect,
   useState
 } from 'react';
 import { HttpAuth } from '../../config/http';
@@ -13,37 +13,79 @@ import { AuthContextProps, AuthContextProviderType, LoginProps,RecoveryProps } f
 
 const AuthContext = createContext({} as AuthContextProps);
 
+
+
 export function AuthContextProvider({ children }: AuthContextProviderType) {
 
    const isAuthentication = !!getTokenLocalStorage();// HABILITAR QUANDO FOR INTEGRAR API
    const user = getUserLocalStorage();
   const navigate = useNavigate();
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [tentativas,setTentativas] =useState<number>(0);
+  let timeInicial = localStorage.getItem('totalTimeSecondGeral')
+  const [totalTimeSecondGeral,settotalTimeSecondGeral] = useState((timeInicial ? parseInt(timeInicial):0));
+  const minutes = Math.floor(totalTimeSecondGeral / 60);
+  const seconds =totalTimeSecondGeral % 60;
+
+  useEffect(()=>{
+    const intervar = setInterval(() =>{
+       if(totalTimeSecondGeral == 0){
+         return
+       }else{
+         settotalTimeSecondGeral(totalTimeSecondGeral -1);
+         localStorage.setItem('totalTimeSecondGeral',(totalTimeSecondGeral -1).toString())
+ 
+        }
+     },1000)
+     return()=>{
+     
+       clearInterval(intervar);
+     }
+   },[totalTimeSecondGeral])
 
   const login = (credentials: LoginProps) => {
     setLoading(true);
     // CHAMADA DE API DE LOGIN AQUI
-    HttpAuth.post('/usuario/authenticate',credentials).then(res =>{
+    if(totalTimeSecondGeral == 0){
+    HttpAuth.post('/usuario/authenticate',credentials,{
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': recaptchaToken,
+      }
+    }).then(res =>{
   
       if(res.data.situacao == true){
         localStorage.setItem('@TerabyteTecnologia-:token-1.0.0',res.data.access_token);
         localStorage.setItem('@TerabyteTecnologia-:user',res.data.data.nome)
         setTentativas(0);
+        settotalTimeSecondGeral((5*60))
         navigate("/");  //REMOVER ESTE NAVIGATE APÓS INTEGRAR COM API
       }else{
         setTentativas(tentativas+1);
+        location.reload(); //REMOVER ESTE NAVIGATE APÓS INTEGRAR COM API
         alert(res.data.error)
       }
       setLoading(false);
-    })
+     })
+    }else{
+      alert("Aguarde o prazo de espera para logar e atualize a tela após o términio")
+      setLoading(false);
+      location.reload()
+    
+    }
     
   };
 
   const recovery = (credentials: RecoveryProps) => {
     setLoading(true);
     // CHAMADA DE API DE LOGIN AQUI
-    HttpAuth.post('/usuario/recovery',credentials).then(res =>{
+    HttpAuth.post('/usuario/recovery',credentials,{
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': recaptchaToken,
+      }
+    }).then(res =>{
     
       if(res.data.situacao == true){
         setTentativas(0);
@@ -51,7 +93,12 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
       }else{
       
         setTentativas(tentativas+1);
-        alert(res.data.msg)
+        if(res.data.error){
+          alert(res.data.error)
+        }else{
+         alert(res.data.msg)
+        }
+        location.reload();
       }
       setLoading(false)
     })
@@ -102,10 +149,15 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
         logout,
         verificaUsoUnico,
         setTentativas,
+        minutesGeral:minutes,
+        secondsGeral:seconds,
         tentativas,
+        totalTimeSecondGeral,
         isAuthentication,
         loading,
-        user
+        user,
+        recaptchaToken,
+        setRecaptchaToken,
       }}
     >
       {children}

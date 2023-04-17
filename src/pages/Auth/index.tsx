@@ -17,11 +17,11 @@ import { useEffect, useState } from "react";
 
 export function Login() {
 
-  const { isAuthentication, login,loading,tentativas,setTentativas } = useAuth();
+  const { isAuthentication, login,loading,tentativas,setTentativas,totalTimeSecondGeral,minutesGeral,secondsGeral,setRecaptchaToken,recaptchaToken  } = useAuth();
 
   const navigate = useNavigate();
 
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+ 
   const key = '6Lfmz5ElAAAAAPy39vbsi1LBIGdBzjGvunXXSZG1'
   const handleRecaptchaChange = (token: string | null) => {
     setRecaptchaToken(token);
@@ -111,14 +111,16 @@ export function Login() {
             />
           </LoginFormGroup>
           <CaptchaContainer>
+          {totalTimeSecondGeral == 0 ? '' : `Proximo login ${minutesGeral.toString().padStart(2,"0")}:${secondsGeral.toString().padStart(2,"0")}`}
+          </CaptchaContainer>
+          <CaptchaContainer>
           <Recaptcha sitekey={key} onChange={handleRecaptchaChange} />
           </CaptchaContainer>
           <ButtonDefault
             type="submit"
             disabled={loading  || !recaptchaToken ||  totalTimeSecondLogin != 0}
           >
-           
-            {totalTimeSecondLogin == 0 ? 'Entrar' : `${minutes.toString().padStart(2,"0")}:${seconds.toString().padStart(2,"0")}`}
+            {totalTimeSecondLogin == 0 ?  'Entrar' : `${minutes.toString().padStart(2,"0")}:${seconds.toString().padStart(2,"0")}`}
           </ButtonDefault>
         </LoginForm>
         <LinkSenha href="/recovery">Esqueçeu Senha Clique Aqui</LinkSenha>

@@ -14,13 +14,13 @@ import { useEffect, useState } from "react";
 
 export function Recovery() {
 
-  const { isAuthentication, recovery,loading,tentativas,setTentativas } = useAuth();
+  const { isAuthentication, recovery,loading,tentativas,setTentativas,recaptchaToken,setRecaptchaToken } = useAuth();
   const key = '6Lfmz5ElAAAAAPy39vbsi1LBIGdBzjGvunXXSZG1'
   const navigate = useNavigate();
   const [email,setEmail] = useState('');
   const [senha,setSenha] = useState('');
   const [senhaNew,setSenhaNew] = useState('');
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+ 
 
 
 
