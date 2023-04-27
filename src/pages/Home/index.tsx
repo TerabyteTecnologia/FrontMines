@@ -174,7 +174,7 @@ export function Home() {
           })}
         </MinesContent>
 
-        <AccessGame href="https://www.pixluck.bet/register?id=6425ae475733c00026960fdd"  target="_blank">
+        <AccessGame href="https://www.pixluck.bet/register?id=63fe292e91c096002450f877"  target="_blank">
           <img src={link} /> Acessar Game
         </AccessGame>
 
