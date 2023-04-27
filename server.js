@@ -11,7 +11,7 @@ express.static(
 )
 app.use('*', express.static( resolve( __dirname, './dist' ) ) )
 //tirar o port.env e colocar no package.json trocar type="module" para type="commonjs" depoois de buildado
-app.listen(3028,(err)=>{
+app.listen(3023,(err)=>{
     if(err){return  console.log(err)}
 
     console.log('Tudo funcionando')
