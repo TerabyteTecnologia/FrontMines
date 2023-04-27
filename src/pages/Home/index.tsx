@@ -174,7 +174,7 @@ export function Home() {
           })}
         </MinesContent>
 
-        <AccessGame href="https://tracking.braxbet.com/o/riNXCX?lpage=HPK4a6"  target="_blank">
+        <AccessGame href="https://www.pixluck.bet/register?id=6426e13499afed0026b77eb8"  target="_blank">
           <img src={link} /> Acessar Game
         </AccessGame>
 
