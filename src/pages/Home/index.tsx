@@ -94,7 +94,7 @@ export function Home() {
   }
   
   async function postGeneratedMine() {
-    verificaUsoUnico();
+   // verificaUsoUnico();
     setLoading(true);
     const jogos = await gerarJogo();
       setDataGeneratedMines(jogos);

@@ -11,12 +11,12 @@ export function Router() {
   return (
   
     <Routes>
-      <Route path="/" element={<PrivateRoutes />}>
+      {/* <Route path="/" element={<PrivateRoutes />}> */}
         <Route path="/" element={<Home />} />
-      </Route>
+      {/* </Route> */}
 
-      <Route path="/recovery" element={<Recovery />} />
-      <Route path="/login" element={<Login />} />
+      {/* <Route path="/recovery" element={<Recovery />} />
+      <Route path="/login" element={<Login />} /> */}
     </Routes>
     
   );

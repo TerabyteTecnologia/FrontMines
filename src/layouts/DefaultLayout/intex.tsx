@@ -12,7 +12,7 @@ export function PrivateRoutes() {
 
   useEffect(() => {
     if (!isAuthentication)
-      navigate("/login");
+      navigate("/");
 
   }, [isAuthentication]);
 
