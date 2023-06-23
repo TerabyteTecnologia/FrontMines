@@ -103,7 +103,7 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
     
       if(res.data.situacao == true){
         setTentativas(0);
-        navigate("/login");  
+        navigate("/");  
       }else{
       
         setTentativas(tentativas+1);
@@ -122,7 +122,7 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
  
   const logout =()=>{
      localStorage.clear();
-     navigate("/login");
+     navigate("/");
   }
   
 
