@@ -12,7 +12,7 @@ export const LoginContainer = styled.div`
 `;
 
 export const LoginContent = styled.div`
-  width: 420px;
+  //width: 420px;
   box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
   
   padding: 1.875rem 1.25rem;
@@ -27,6 +27,11 @@ export const LoginContent = styled.div`
       width: 243px;
       height: 236px;
     }
+  }
+
+  span{
+    display: flex;
+    justify-content: center;
   }
 `;
 
@@ -60,11 +65,13 @@ export const CaptchaContainer = styled.div`
   align-content: center; ;
 `;
 
+
+
 export const LinkSenha = styled.a`
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
     color:${(props) =>props.theme['white-100']};
-    font-size:0.9rem;
+    font-size:1.2rem;
 `

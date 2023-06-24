@@ -12,7 +12,8 @@ export function Router() {
   
     <Routes>
       {/* <Route path="/" element={<PrivateRoutes />}> */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/home" element={<Home />} />
       {/* </Route> */}
 
       {/* <Route path="/recovery" element={<Recovery />} />
